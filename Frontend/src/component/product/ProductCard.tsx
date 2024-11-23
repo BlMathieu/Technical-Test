@@ -35,6 +35,14 @@ function ProductCard(props: { data: ProductEntity }) {
             return "non"
         }
     }
+
+    const getBasketButton = ()=>{
+        if(props.data.available){
+            return <Button sx={{width: "100px", margin: "0.5em" }}  variant="outlined" onClick={addToBasket}>Panier</Button>
+        }else{
+            return <Button sx={{width: "100px", margin: "0.5em" }}  variant="outlined" onClick={addToBasket}>Panier</Button>
+        } 
+    }
     return (
         <>
             <div className="card">
@@ -47,7 +55,7 @@ function ProductCard(props: { data: ProductEntity }) {
                     <p>Disponible : {getAvailable()}</p>
                 </div>
                 <div>
-                    <Button sx={{width: "100px", margin: "0.5em" }}  variant="outlined" onClick={addToBasket}>Panier</Button>
+                    {getBasketButton()}
                 </div>
                 <div>
                     <Button sx={{width: "100px", margin: "0.5em" }}  variant="outlined" onClick={async () => {

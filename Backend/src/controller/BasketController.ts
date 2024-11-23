@@ -1,8 +1,12 @@
 import EntityBasket from "../entity/EntityBasket";
+import EntityProduct from "../entity/EntityProduct";
 import EntityUserAccount from "../entity/EntityUserAccount";
+import APIError from "../error/APIError";
 import JWTAuthentifier from "../jwt/JWTAuthentifier";
 import ModelBasket from "../model/ModelBasket";
 import AbstractController from "./AbstractController";
+import ProductController from "./ProductController";
+
 class BasketController extends AbstractController {
 
     constructor() {
@@ -10,11 +14,16 @@ class BasketController extends AbstractController {
     }
 
     public async addObject(object: EntityBasket): Promise<void> {
-        const dbObject: any = await this.model.findOne({ user_id: object.user_id, product_id: object.product_id });
-        if (dbObject != null) {
-            await this.model.updateOne({ _id: dbObject._id }, { amount: Number(dbObject.amount) + 1 });
+        const dbBasketObject: any = await this.model.findOne({ user_id: object.user_id, product_id: object.product_id });
+        const dbProduct: any = await ProductController.getObjectById(object.product_id);
+        if (dbProduct != null && dbProduct.available) {
+            if (dbBasketObject != null) {
+                await this.model.updateOne({ _id: dbBasketObject._id }, { product_name: object.product_name, product_price: object.product_price, amount: Number(dbBasketObject.amount) + 1 });
+            } else {
+                await this.model.create(object);
+            }
         } else {
-            await this.model.create(object);
+            throw new APIError("Le produit n'est pas disponible !");
         }
     }
 
