@@ -1,0 +1,14 @@
+footer{
+    display: flex;
+    flex-direction: row;
+    border: 2px solid white;
+    position: fixed;
+    justify-content: space-around;
+    bottom: 0;
+    min-width: 100%;
+    box-sizing: border-box;
+}
+
+footer p {
+    margin: 1em;
+}

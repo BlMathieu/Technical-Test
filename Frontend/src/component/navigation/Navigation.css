@@ -1,0 +1,15 @@
+nav ul{
+    display:flex;
+    flex-direction: row;
+    list-style: none;
+    justify-content: space-around;
+}
+nav ul li{
+    margin: 1em;
+    transition: 500ms;
+}
+nav ul li:hover{
+    scale:1.2;
+    cursor: pointer;
+    text-decoration: underline;
+}
