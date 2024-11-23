@@ -4,7 +4,7 @@ import ProductRequest from "../../request/ProductRequest";
 import ProductEntity from "../../entity/ProductEntity";
 import { setAddWindow } from "../../reducer/WindowReducer";
 import { setProducts } from "../../reducer/ProductReducer";
-
+import { Button } from "@mui/material";
 
 function ProductCardAdd() {
     const dispatch = useDispatch();
@@ -51,14 +51,17 @@ function ProductCardAdd() {
                             <label htmlFor="available">Disponible</label>
                             <input id="available" type="checkbox" checked={available} onChange={(event) => { setAvailable(Boolean(event.target.checked)) }} />
                         </div>
-                        <div>
-                            <input type="submit" value="Ajouter" />
+                        <div className="choice">
+                            <div>
+                                <Button variant="outlined" type="submit">Ajouter</Button>
+                            </div>
+                            <div>
+                                <Button variant="outlined" onClick={() => {
+                                    dispatch(setAddWindow(false));
+                                }}>Annuler</Button>
+                            </div>
                         </div>
-                        <div>
-                            <input type="button" value="Annuler" onClick={() => {
-                                dispatch(setAddWindow(false));
-                            }} />
-                        </div>
+
                     </form>
                 </section>
             </>

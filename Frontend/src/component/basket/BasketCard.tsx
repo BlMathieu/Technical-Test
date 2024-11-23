@@ -2,6 +2,8 @@ import { useDispatch, useSelector } from "react-redux";
 import BasketEntity from "../../entity/BasketEntity";
 import BasketRequest from "../../request/BasketRequest";
 import { setBasket } from "../../reducer/BasketReducer";
+import { Button } from "@mui/material";
+
 function BasketCard(props: { data: BasketEntity }) {
     const dispatch = useDispatch();
     const token = useSelector(state => state.jwtReducer.access_token);
@@ -16,19 +18,19 @@ function BasketCard(props: { data: BasketEntity }) {
                     <p>Total : {props.data.product_price * props.data.amount} €</p>
                 </div>
                 <div>
-                    <input type="button" value="Ajouter" onClick={async () => {
+                    <Button variant="outlined" sx={{width: "100px", margin: "0.5em" }} onClick={async () => {
                         await BasketRequest.addToBasket(token, props.data);
                         const basket = await BasketRequest.getUserBasket(token);
                         dispatch(setBasket(basket));
-                    }} />
+                    }}>Ajouter</Button>
                 </div>
                 <div>
-                    <input type="button" value="Supprimer" onClick={async () => {
+                    <Button variant="outlined" sx={{width: "100px", margin: "0.5em" }} onClick={async () => {
                         const id: string = (props.data._id != null) ? props.data._id : "";
                         await BasketRequest.deleteBasketProductById(token, id);
                         const basket = await BasketRequest.getUserBasket(token);
                         dispatch(setBasket(basket));
-                    }} />
+                    }}>Supprimer</Button>
                 </div>
 
             </div>

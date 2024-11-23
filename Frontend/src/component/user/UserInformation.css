@@ -2,7 +2,7 @@ footer{
     display: flex;
     flex-direction: row;
     border: 2px solid white;
-    position: fixed;
+    position: sticky;
     justify-content: space-around;
     bottom: 0;
     min-width: 100%;

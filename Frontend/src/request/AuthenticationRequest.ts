@@ -19,6 +19,7 @@ class AuthenticationRequest extends AbstractRequest {
         }).catch((error) => {
             console.error(error);
         });
+
     }
     public async logout() {
         const url = `${this.url}/logout`;

@@ -6,6 +6,7 @@ import { useSelector } from 'react-redux';
 import { setLoginWindow } from "../../reducer/WindowReducer";
 import { setBasket } from "../../reducer/BasketReducer";
 import BasketRequest from "../../request/BasketRequest";
+import { Button } from "@mui/material";
 function Login() {
     const dispatch = useDispatch();
     const [username, setUsername] = useState("");
@@ -20,9 +21,13 @@ function Login() {
                     <form onSubmit={async (event) => {
                         event.preventDefault();
                         const access_token = (await AuthenticationRequest.login({ login: username, password: password })).access_token;
-                        dispatch(login(access_token));
-                        const basket = await BasketRequest.getUserBasket(access_token);
-                        dispatch(setBasket(basket));
+                        if(access_token != null ||access_token != ""){
+                            dispatch(login(access_token));
+                            const basket = await BasketRequest.getUserBasket(access_token);
+                            dispatch(setBasket(basket));
+                            dispatch(setLoginWindow(false))
+                        }
+             
                     }}>
                         <div>
                             <label htmlFor="username">Nom d'utilisateur</label>
@@ -33,13 +38,16 @@ function Login() {
                             <input id="password" type="password" value={password} onChange={(event) => { setPassword(event.target.value) }} />
                         </div>
                         <div>
-                            <input type="submit" value="Se connecter" />
+                            <div>
+                                <Button variant="outlined" type="submit">Se connecter</Button>
+                            </div>
+                            <div>
+                                <Button variant="outlined" value="Annuler" onClick={() => {
+                                    dispatch(setLoginWindow(false))
+                                }}>Annuler</Button>
+                            </div>
                         </div>
-                        <div>
-                            <input type="button" value="Annuler" onClick={() => {
-                                dispatch(setLoginWindow(false))
-                            }} />
-                        </div>
+
                     </form>
                 </section>
 

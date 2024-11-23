@@ -3,6 +3,7 @@ import AuthenticationRequest from "../../request/AuthenticationRequest";
 import UserAccountEntity from "../../entity/UserAccountEntity";
 import { useDispatch, useSelector } from 'react-redux';
 import { setRegisterWindow } from "../../reducer/WindowReducer";
+import { Button } from "@mui/material";
 
 function Register() {
     const dispatch = useDispatch();
@@ -21,6 +22,7 @@ function Register() {
                         if (password === confirmPassword) {
                             const userAccount: UserAccountEntity = { login: username, password: password };
                             await AuthenticationRequest.createAccount(userAccount);
+                            dispatch(setRegisterWindow(false))
                         }
                     }}>
                         <div>
@@ -36,12 +38,14 @@ function Register() {
                             <input id="confirmPassword" type="password" value={confirmPassword} onChange={(event) => { setConfirmPassword(event.target.value) }} />
                         </div>
                         <div>
-                            <input type="submit" value="Se connecter" />
-                        </div>
-                        <div>
-                            <input type="button" value="Annuler" onClick={() => {
-                                dispatch(setRegisterWindow(false))
-                            }} />
+                            <div>
+                                <Button variant="outlined" type="submit">S'enregister</Button>
+                            </div>
+                            <div>
+                                <Button variant="outlined" onClick={() => {
+                                    dispatch(setRegisterWindow(false))
+                                }}>Annuler</Button>
+                            </div>  
                         </div>
                     </form>
                 </section>

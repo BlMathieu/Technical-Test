@@ -6,8 +6,11 @@ import { setEditWindow } from "../../reducer/WindowReducer";
 import BasketRequest from "../../request/BasketRequest";
 import BasketEntity from "../../entity/BasketEntity";
 import { setBasket } from "../../reducer/BasketReducer";
+
+import { Button } from "@mui/material";
+
 function ProductCard(props: { data: ProductEntity }) {
-    
+
     const dispatch = useDispatch();
     const token = useSelector(state => state.jwtReducer.access_token);
     const user = useSelector(state => state.jwtReducer.user);
@@ -38,16 +41,16 @@ function ProductCard(props: { data: ProductEntity }) {
                 <div>
                     <p>Nom : {props.data.name}</p>
                     <p>Type :  {props.data.type}</p>
-                    <p>Prix : {props.data.price}</p>
+                    <p>Prix : {props.data.price} €</p>
                     <p>Note : {props.data.rating}</p>
-                    <p>Garantie : {props.data.warranty_years}</p>
+                    <p>Garantie : {props.data.warranty_years} </p>
                     <p>Disponible : {getAvailable()}</p>
                 </div>
                 <div>
-                    <input value="Panier" type="button" onClick={addToBasket} />
+                    <Button sx={{width: "100px", margin: "0.5em" }}  variant="outlined" onClick={addToBasket}>Panier</Button>
                 </div>
                 <div>
-                    <input value="Modifier" type="button" onClick={async () => {
+                    <Button sx={{width: "100px", margin: "0.5em" }}  variant="outlined" onClick={async () => {
                         dispatch(setEditWindow(true));
                         const product: ProductEntity = {
                             _id: props.data._id,
@@ -59,15 +62,15 @@ function ProductCard(props: { data: ProductEntity }) {
                             available: props.data.available,
                         }
                         dispatch(setCurrentProduct(product));
-                    }} />
+                    }}>Modifier</Button>
                 </div>
                 <div>
-                    <input value="Supprimer" type="button" onClick={async () => {
+                    <Button sx={{width: "100px", margin: "0.5em" }} variant="outlined" onClick={async () => {
                         const id: string = (props.data._id != null) ? props.data._id : "";
                         await ProductRequest.deleteProduct(id);
                         const products = await ProductRequest.getProducts();
                         dispatch(setProducts(products));
-                    }} />
+                    }}>Supprimer</Button>
                 </div>
             </div>
         </>

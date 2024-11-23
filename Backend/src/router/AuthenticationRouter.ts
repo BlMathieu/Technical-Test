@@ -53,7 +53,7 @@ router.post("/logout", async (req, res) => {
             await AuthenticationController.logout(user.login);
         }
         res.cookie('refresh_token', "");
-        res.send({message:`Déconnexion réussi !`});
+        res.send({ message: `Déconnexion réussi !` });
     } catch (error) {
         console.error(error)
         res.send({ message: error });
@@ -61,14 +61,19 @@ router.post("/logout", async (req, res) => {
 });
 
 router.post("/account", async (req, res) => {
-    const data = req.body;
-    const user = {
-        login: data.login,
-        password: data.password,
-        refresh_token: "",
+    try {
+        const data = req.body;
+        const user = {
+            login: data.login,
+            password: data.password,
+            refresh_token: "",
+        }
+        await AuthenticationController.addObject(user);
+        res.send({ message: `${user.login} a été créé` });
+    } catch (error) {
+        console.error(error);
+        res.send({ message: error });
     }
-    await AuthenticationController.addObject(user);
-    res.send({ message: `${user.login} a été créé` });
 });
 
 router.delete("/account", async (req, res) => {
